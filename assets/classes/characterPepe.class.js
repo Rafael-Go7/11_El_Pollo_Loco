@@ -98,7 +98,7 @@ class Character extends MovableObject{
             }
             this.world.camera_x = -this.x + 100; // wir verknüpfen die Bewegung des Characters mit der Variablen für die veränderte ctx/ Kamera Perspektive, welche wir in der class.world.js definiert haben. Durch das +100 verschieben wir die Kameraperspektive auf der X-Achse um +100px.
 
-            console.log('this speedY', this.speedY);
+            // console.log('this speedY', this.speedY);
 
             if(this.world.keyboard.KEY_SPACE && !this.isAboveGround()) { // && !this.isAboveGround - der Speed soll sich nur weiter erhöhen, wenn die Bedingung der isAboveGround() Funktion erfüllt ist, siehe in der class MovableObjects. Ohne diese Bedingung würde der Character fliegen können.
                 this.jump();
@@ -111,6 +111,7 @@ class Character extends MovableObject{
             
             if(this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
+                
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
             } else 
@@ -118,7 +119,7 @@ class Character extends MovableObject{
             if(this.isAboveGround()) {
                 // Jumping animation
                 this.playAnimation(this.IMAGES_JUMPING);
-
+               
             } else {
             
                 if(this.world.keyboard.KEY_RIGHT || this.world.keyboard.KEY_LEFT) {
@@ -126,8 +127,18 @@ class Character extends MovableObject{
                 this.playAnimation(this.IMAGES_WALKING);
                 }
             }
+            
         }, 50);
-        // myStopFunction();
+        
+        
     }
 
+    // clearInterval(animations2);
+    
+    
+    // myStopFunction() {
+    //     clearInterval(animations2);
+    //   }
+
 }
+

@@ -73,9 +73,9 @@ class World{
             self.draw();
         });
 
-        // setInterval(() => {
-        //     this.music_sound.play();    // Musik wird gespielt
-        // }, 10);
+        setInterval(() => {
+            this.music_sound.play();    // Musik wird gespielt
+        }, 10);
     }
 
     addObjectsToMap(objects){

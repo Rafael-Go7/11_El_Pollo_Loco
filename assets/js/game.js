@@ -6,8 +6,8 @@ function init() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);    // wir übergeben Variablen (canvas, keyboard) an unsere Welt
                                                              // character.src = '../img/2_character_pepe/2_walk/W-21.png';    mit ../ greifen wir in der Verzeichnishirarchie auf den übergeordneten Ordner zu. So gehen wir eine Verzeichnisebene höher.
-    console.log('My Character is', world['character']);
-    console.log('My Character is', world['backgroundObjects']);
+    // console.log('My Character is', world['character']);
+    // console.log('My Character is', world['backgroundObjects']);
 }
 
 window.addEventListener('keydown', (event) => {       // Definition des Events 'keypress'

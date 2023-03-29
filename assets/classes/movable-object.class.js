@@ -35,7 +35,7 @@ class MovableObject extends DrawableObject{
 
     moveRight(){
         this.x += this.speed;
-        console.log('Moving right');
+        // console.log('Moving right');
     }
 
 
@@ -80,9 +80,5 @@ class MovableObject extends DrawableObject{
     isDead() {
         return this.energy == 0;
     }
-
-    // myStopFunction() {
-    //     clearInterval(setInterval);
-    //   }
 
 }
