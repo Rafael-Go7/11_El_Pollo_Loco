@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El_Pollo_Loco</title>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="assets/classes/drawable-object.class.js"></script>     <!-- drawable-object muss vor movable-object importiert werden, damit die Eigenschaften der Klasse drawable-object an movable-object weiter vererbt werden können-->
+    <script src="assets/classes/movable-object.class.js"></script>
+    <script src="assets/classes/background-object.class.js"></script>
+    <script src="assets/classes/status-bar.class.js"></script>      <!--status-bar.class.js muss aufgerufen werden bevor diw world.class.js aufgerufen wird, ansonsten error 'status-bar is not defined'-->
+    <script src="assets/classes/world.class.js"></script>
+    <script src="assets/classes/cloud.class.js"></script>
+    <script src="assets/classes/chicken.class.js"></script>
+    <script src="assets/classes/characterPepe.class.js"></script>
+    <script src="assets/classes/keyboard.class.js"></script>
+    <script src="assets/classes/level.class.js"></script>
+    <script src="assets/classes/throwable-object.class.js"></script>
+    <script src="assets/classes/endboss.class.js"></script>
+    <script src="assets/levels/level1.js"></script>
+    <script src="assets/js/game.js"></script>
+</head>
+<body onload="init()">
+    
+    <h1>El-Pollo Loco</h1>
+
+    <canvas id="canvas" width="720" height="480">
+
+
+    </canvas>
+
+</body>
+</html>
