@@ -1,19 +1,37 @@
 class ThrowableObject extends MovableObject{
+    
+    IMAGES_BOTTLE_ROTATION = [
+        'assets/img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
+        'assets/img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png',
+        'assets/img/6_salsa_bottle/bottle_rotation/3_bottle_rotation.png',
+        'assets/img/6_salsa_bottle/bottle_rotation/4_bottle_rotation.png'
+        ];
+
 
     constructor(x, y){          // (x, y) - Koordinaten werden von wordl.class.js checkThrowObjects() mitgegeben
         super().loadImage('assets/img/6_salsa_bottle/salsa_bottle.png');
+        this.loadImages(this.IMAGES_BOTTLE_ROTATION);
         this.x = x;       //Startposition X
         this.y = y;       //Startposition Y
         this.height = 60;   //Höhe des Imgs
         this.width = 50;
-        this.throw();               
+        this.throw();
+        this.animate();               
     }
+
 
     throw() {
         this.speedY = 10;       // Geschwindigkeit der Flasche
         this.applyGravity();
         setInterval(() => {
-           this.x += 10;  // x-Koordinate soll sich konstant erhöhen
-        }, 25);         //milliseconds
+           this.x += 5;  // x-Koordinate soll sich konstant erhöhen
+        }, 50);         //milliseconds
+    }
+
+
+    animate(){
+        setInterval(() => {
+                this.playAnimation(this.IMAGES_BOTTLE_ROTATION);
+            }, 80);
     }
 }

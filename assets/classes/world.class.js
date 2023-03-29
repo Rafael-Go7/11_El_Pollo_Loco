@@ -6,6 +6,7 @@ class World{
     keyboard;
     camera_x = 0;    // Der Minuswert sorgt dafür, dass das Bild auf der X-Achse nach Links verschoben wird
     music_sound = new Audio('assets/audio/7_music_1_salsa loca2.wav');
+    throwBottle_sound = new Audio('assets/audio/8_throw.wav');
     statusBar = new StatusBar();
     throwableObjects = [];
 
@@ -18,9 +19,11 @@ class World{
         this.run();    
     }
 
+
     setWorld(){             //wir geben jedem Objekt eine Referenz (sämtliche Variablen) mit auf unsere Welt. Somit können die Objekte auf die Eigenschaften der Welt zugreifen
         this.character.world = this; // hier werden die Eigenschaften der Variablen "Welt" an den Character weitergegeben. Die Variable Character kann nun auf die Variablen/ Eigenschaften der Welt zugreifen. Durch "this" gewährleisten wir die ganz aktuellen Eigenschaften der Welt in diesem Augenblick
     }
+
 
     run(){                      // diese Funktion checkt regelmäßig ob der Character mit einem enemy kollidiert
         setInterval(() => {
@@ -28,6 +31,7 @@ class World{
             this.checkThrowObjects();   
         }, 200);           // jede 1000 Millisekunden wird geprüft, ob Objekte in unserer Welt miteinadern kollidieren
     }
+
 
     checkCollisions(){
         this.level.enemies.forEach((enemy) => {
@@ -39,12 +43,15 @@ class World{
         });
     }
 
+
     checkThrowObjects(){
         if(this.keyboard.KEY_D){
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);   //
             this.throwableObjects.push(bottle);
+            this.throwBottle_sound.play();    // throwBottle_sound wird gespielt
         }   
     }
+
 
     draw(){                         //Consolen-Aufrufbefehl für das Aufrufen einer Funktion: world.draw()
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);   // wir löschen erst einmal den Inhalt unserer Speilwelt 'World'. Die Funktion bekommt zusätzlich den Context (ctx) mit übergeben.
@@ -73,16 +80,18 @@ class World{
             self.draw();
         });
 
-        setInterval(() => {
-            this.music_sound.play();    // Musik wird gespielt
-        }, 10);
+        // setInterval(() => {
+        //     this.music_sound.play();    // Musik wird gespielt
+        // }, 10);
     }
+
 
     addObjectsToMap(objects){
         objects.forEach(o => {      // füge Objekte hinzu
             this.addToMap(o);
         });
     }
+
 
     addToMap(mo) {
         if(mo.otherDirection){      //Spiegelfunktion; zunächst checken wir mit mo.otherDirection, ob unser Objekt eine andere Richtung hat
@@ -97,6 +106,7 @@ class World{
         }
     }
 
+
     flipImage(mo){
         this.ctx.save();    // falls, ja, dann speichern wir die aktuellen Einstellungen von unserem Kontext// Context (ctx) hat Eigenschaften der Spielwelt, welche standardmäßig eingefügt werden sollen.
         this.ctx.translate(mo.width, 0);    // dann verändern wir die Methode wie wir die Bilder einfügen// wir verschieben das Bild um die breite des jeweiligen Elements
@@ -105,6 +115,7 @@ class World{
 
     }
 
+    
     flipImageBack(mo){
         mo.x = mo.x * -1;   // damit die X-Koordinate richtig angezeigt wird, müssen wir diese Zeile Code für eine fehlerfreie Spiegelung des Bilds noch hinzufügen. Wir müssen die X-koordinate vollständig umdrehen.
         this.ctx.restore();

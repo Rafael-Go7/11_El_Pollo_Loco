@@ -14,8 +14,6 @@ class Chicken extends MovableObject{
 
         chicken_sound = new Audio('assets/audio/3_chicken (mp3cut.net).wav');
 
-
-
     constructor(){
         super().loadImage('assets/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
         this.loadImages(this.IMAGES_WALKING);       // hierdurch wird ein Array befüllt mit den aufgelisteten Bildern/ Bildverzeichnispfaden, innerhalb von []
