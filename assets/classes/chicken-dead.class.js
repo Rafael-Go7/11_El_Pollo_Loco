@@ -7,5 +7,13 @@ class DeadChicken extends MovableObject {
         super().loadImage('assets/img/3_enemies_chicken/chicken_normal/2_dead/dead.png');
         this.x = posX;
         this.y = posY;
+        // this.animate();
     }
+
+    // animate(){
+
+    //     setInterval(() => {
+            
+    //     })
+    // }
 }

@@ -15,6 +15,19 @@ new ChickenSmall()
 [
     new Cloud()
 ],
+[
+    new Bottle(600, 460),
+    new Bottle(370, 360),
+    new Bottle(440, 360),
+    new Bottle(650, 360),
+    new Bottle(900, 360),
+    new Bottle(1200, 360),
+    new Bottle(1370, 360)
+
+],
+// [
+//     new Coin()
+// ],
 // [
 //     new Coin(300, 100),
 //     new Coin(370, 60),
