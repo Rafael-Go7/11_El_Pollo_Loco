@@ -23,7 +23,7 @@ class DrawableObject {
 
     drawFrame(ctx) {
 
-        if(this instanceof Character || this instanceof Chicken || this instanceof ChickenSmall || this instanceof Endboss){        //instanceof Methode - alles in den {} wird nur ausgeführt, wenn das Objekt eine Instanz von Character oder (||) von Chicken ist
+        if(this instanceof Character || this instanceof Chicken || this instanceof ChickenSmall || this instanceof Endboss || this instanceof ThrowableObject){        //instanceof Methode - alles in den {} wird nur ausgeführt, wenn das Objekt eine Instanz von Character oder (||) von Chicken ist
             ctx.beginPath();
             ctx.lineWidth = '5';
             ctx.strokeStyle = 'blue';

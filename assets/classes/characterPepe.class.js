@@ -41,18 +41,18 @@ class Character extends MovableObject{
     
     ];
 
-    // IMAGES_IDLE = [            
-    //     'assets/img/2_character_pepe/1_idle/idle/I-1.png',
-    //     'assets/img/2_character_pepe/1_idle/idle/I-2.png',
-    //     'assets/img/2_character_pepe/1_idle/idle/I-3.png',
-    //     'assets/img/2_character_pepe/1_idle/idle/I-4.png',
-    //     'assets/img/2_character_pepe/1_idle/idle/I-5.png',
-    //     'assets/img/2_character_pepe/1_idle/idle/I-6.png',
-    //     'assets/img/2_character_pepe/1_idle/idle/I-7.png',
-    //     'assets/img/2_character_pepe/1_idle/idle/I-8.png',
-    //     'assets/img/2_character_pepe/1_idle/idle/I-9.png',
-    //     'assets/img/2_character_pepe/1_idle/idle/I-10.png'
-    //     ];
+    IMAGES_IDLE = [            
+        'assets/img/2_character_pepe/1_idle/idle/I-1.png',
+        'assets/img/2_character_pepe/1_idle/idle/I-2.png',
+        'assets/img/2_character_pepe/1_idle/idle/I-3.png',
+        'assets/img/2_character_pepe/1_idle/idle/I-4.png',
+        'assets/img/2_character_pepe/1_idle/idle/I-5.png',
+        'assets/img/2_character_pepe/1_idle/idle/I-6.png',
+        'assets/img/2_character_pepe/1_idle/idle/I-7.png',
+        'assets/img/2_character_pepe/1_idle/idle/I-8.png',
+        'assets/img/2_character_pepe/1_idle/idle/I-9.png',
+        'assets/img/2_character_pepe/1_idle/idle/I-10.png'
+        ];
 
     // IMAGES_IDLE_LONG = [            
     //     'assets/img/2_character_pepe/1_idle/long_idle/I-11.png',
@@ -77,6 +77,7 @@ class Character extends MovableObject{
         this.loadImages(this.IMAGES_JUMPING);       // Das Array IMAGES_JUMPING wird geladen
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
+        this.loadImages(this.IMAGES_IDLE);
         this.applyGravity();
         this.animate();
     }
@@ -107,11 +108,13 @@ class Character extends MovableObject{
 
         }, 1000 / 60);
 
-        setInterval(() => {
-            
+        let animations2 = setInterval(() => {
+            // if(idle == true) {
+            //     this.playAnimation(this.IMAGES_IDLE);
+                
+            // } else 
             if(this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
-                
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
             } else 
@@ -127,13 +130,16 @@ class Character extends MovableObject{
                 this.playAnimation(this.IMAGES_WALKING);
                 }
             }
-            
-        }, 50);
-        
+        }, 50);      
         
     }
 
-    // clearInterval(animations2);
+   
+    clearInterval(animations2){
+
+    }
+
+    
     
     
     // myStopFunction() {

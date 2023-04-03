@@ -1,14 +1,19 @@
 class World{
     character = new Character();        // wir haben eine Variable character definiert und dieser ein Character-Objekt als Wert zugewiesen
+    // enemyChicken = new Chicken();
+    // enemyChickenSmall = new ChickenSmall();
+    // enemy = new Chicken();
+    // ThrowableObject = new ThrowableObject();
     level = level1; // wir streichen die variablen enemies, clouds und backgroundObjects und ersetzen diese durch level 0 level1. Somit greifen wir zurück auf die Variablen, welche in der Klasse level1 gespeichert sind.
     canvas;
     ctx;
     keyboard;
+    // coins;
     camera_x = 0;    // Der Minuswert sorgt dafür, dass das Bild auf der X-Achse nach Links verschoben wird
     music_sound = new Audio('assets/audio/7_music_1_salsa loca2.wav');
     throwBottle_sound = new Audio('assets/audio/8_throw.wav');
     statusBar = new StatusBar();
-    throwableObjects = [];
+    bottles = [];
 
     constructor(canvas, keyboard){
         this.ctx = canvas.getContext('2d');          // ctx steht in aller Regel für den canvas Context
@@ -16,7 +21,7 @@ class World{
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
-        this.run();    
+        this.run();
     }
 
 
@@ -28,7 +33,8 @@ class World{
     run(){                      // diese Funktion checkt regelmäßig ob der Character mit einem enemy kollidiert
         setInterval(() => {
             this.checkCollisions();  
-            this.checkThrowObjects();   
+            this.checkThrowObjects();
+            this.enemyIsCollidingBottle();   
         }, 200);           // jede 1000 Millisekunden wird geprüft, ob Objekte in unserer Welt miteinadern kollidieren
     }
 
@@ -38,16 +44,44 @@ class World{
             if (this.character.isColliding(enemy) ) {
                 this.character.hit();       // im Falle einer Kollision mit einem Enemy wird unserem Character Lebensenergie abgezogen
                 this.statusBar.setPercentage(this.character.energy);
-            // console.log('Colission with Character, energy', this.character.energy);
+            console.log('Colission with Character, energy', this.character.energy);
             }
+
         });
     }
 
+    enemyIsCollidingBottle(){
+        this.bottles.forEach((bottle) => { //Hier handelt es sich um ein Array
+            this.level.enemies.forEach((enemy)=>{
+                if (enemy.isColliding(bottle) ) {
+                    enemy.hitByBottle();       // im Falle einer Kollision mit einem Enemy wird unserem Character Lebensenergie abgezogen
+                    // this.setPercentage(this.enemyChicken.energy);
+                console.log('Colission with enemy, energy', enemy.energy);
+                }
+            });})
+    }
+
+ 
+
+    hitByBottle(enemy) {
+        this.throwableObjects.forEach((bottle) => {
+          if (bottle.isColliding(enemy)) {
+            enemy.hit();
+            bottle.hitEnemy = true;
+            // if (!this.enemyIsChicken(enemy)) {
+            //   this.StatusbarBoss.setPercentage(this.endboss.energy);
+            // } else 
+            // {
+              this.removeChicken(enemy);
+            // }
+          }
+        });
+    }
 
     checkThrowObjects(){
         if(this.keyboard.KEY_D){
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);   //
-            this.throwableObjects.push(bottle);
+            this.bottles.push(bottle);
             this.throwBottle_sound.play();    // throwBottle_sound wird gespielt
         }   
     }
@@ -59,14 +93,14 @@ class World{
         this.ctx.translate(this.camera_x, 0);  // Der Context (ctx)/ Die Kamera verschiebt das gezeichnete Bild (draw) auf der X-Achse, wie in der Variablen camera_x oben definiert; Der Wert 0 für die Y-Achse muss ebenfalls angegeben werden, damit der Befehl vollständig ist.
         this.addObjectsToMap(this.level.backgroundObjects);    // wir fügen unsere backgroundObjects zu unserer Map
         this.addObjectsToMap(this.level.clouds);   // wir fügen unsere Clouds zu unserer Map
-        this.addObjectsToMap(this.throwableObjects);
+        this.addObjectsToMap(this.bottles);
 
         this.ctx.translate(-this.camera_x, 0); // Context(ctx)/ Kamera wird beim Bild-Zeichnen (draw) wieder zurück verschoben.
     //  ----- Space for fixed objects -----
         this.addToMap(this.statusBar); // auch die statusBar muss "gemalt" werden, damit wir sie auf dem Bildschirm angezeigt bekommen
         this.ctx.translate(this.camera_x, 0);  // Der Context (ctx)/ Die Kamera verschiebt das gezeichnete Bild (draw) auf der X-Achse, wie in der Variablen camera_x oben definiert; Der Wert 0 für die Y-Achse muss ebenfalls angegeben werden, damit der Befehl vollständig ist.
         
-        
+        // this.addToMap(this.coins);
         this.addObjectsToMap(this.level.enemies);  // wir fügen unsere Enemies zu unserer Map
         this.addToMap(this.character);  // wir fügen unseren Character zu unserer Map
         this.ctx.translate(-this.camera_x, 0); // Context(ctx)/ Kamera wird beim Bild-Zeichnen (draw) wieder zurück verschoben.

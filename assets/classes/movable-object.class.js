@@ -5,6 +5,7 @@ class MovableObject extends DrawableObject{
     acceleration = 0.5;       // Gravity - wie schnell unsere Objekte beim Fall auf der Y-Achse beschleunigen
     energy = 100;
     lastHit = 0;
+    idle;
 
     applyGravity(){
         setInterval(() => {
@@ -68,11 +69,20 @@ class MovableObject extends DrawableObject{
         }
     }
 
+    hitByBottle() {
+        this.energy -= 50;       // im Falle einer Kollision mit einem Enemy wird unserem Character 5 Lebensenergie abgezogen
+        if (this.energy < 0) {
+            this.energy = 0;
+        } else {
+            this.lastHit = new Date().getTime();    // Zeitpunktabfrage
+        }
+    }
+
 
     isHurt(){
         let timepassed = new Date().getTime() -this.lastHit;    // Difference in milliseconds //Zeitpunkt, an welchem wir das letzte mal getroffen wurden von einem Element
         timepassed = timepassed / 1000; // Difference in seconds
-        console.log(timepassed); 
+        // console.log(timepassed); 
         return timepassed < 1.5;          // 
     }
 
@@ -80,5 +90,10 @@ class MovableObject extends DrawableObject{
     isDead() {
         return this.energy == 0;
     }
+
+    // idle() {
+    //     let timepassed = new Date().getTime() -this.addEventListener('keydown', (event));    // Difference in milliseconds //Zeitpunkt, an welchem wir das letzte mal getroffen wurden von einem Element
+    //     if (timepassed > 3000) {idle == true};
+    // }
 
 }
