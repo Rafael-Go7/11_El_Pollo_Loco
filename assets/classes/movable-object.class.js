@@ -47,7 +47,7 @@ class MovableObject extends DrawableObject{
 
 
     jump(){
-           this.speedY = 15;            // der Speed soll sich erhöhen auf 15
+           this.speedY = 10;            // der Speed soll sich erhöhen auf 15
     }
 
     // Kollisionsformel für MovableObjects
