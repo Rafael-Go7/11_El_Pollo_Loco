@@ -78,6 +78,14 @@ class MovableObject extends DrawableObject{
         }
     }
 
+    hitByEndboss() {
+        this.energy -= 30;       // im Falle einer Kollision mit einem Enemy wird unserem Character 5 Lebensenergie abgezogen
+        if (this.energy < 0) {
+            this.energy = 0;
+        } else {
+            this.lastHit = new Date().getTime();    // Zeitpunktabfrage
+        }
+    }
 
     isHurt(){
         let timepassed = new Date().getTime() -this.lastHit;    // Difference in milliseconds //Zeitpunkt, an welchem wir das letzte mal getroffen wurden von einem Element
@@ -89,7 +97,12 @@ class MovableObject extends DrawableObject{
 
     isDead() {
         return this.energy == 0;
+        // if (energy == 0) {
+        //     level.enemies.splice.
+        // }
     }
+
+
 
     // idle() {
     //     let timepassed = new Date().getTime() -this.addEventListener('keydown', (event));    // Difference in milliseconds //Zeitpunkt, an welchem wir das letzte mal getroffen wurden von einem Element

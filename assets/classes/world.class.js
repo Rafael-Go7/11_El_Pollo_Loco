@@ -14,6 +14,7 @@ class World{
     throwBottle_sound = new Audio('assets/audio/8_throw.wav');
     statusBar = new StatusBar();
     bottles = [];
+    deadEnemies = [];
 
     constructor(canvas, keyboard){
         this.ctx = canvas.getContext('2d');          // ctx steht in aller Regel für den canvas Context
@@ -34,7 +35,8 @@ class World{
         setInterval(() => {
             this.checkCollisions();  
             this.checkThrowObjects();
-            this.enemyIsCollidingBottle();   
+            this.enemyIsCollidingBottle();
+            this.checkCollisionsEndboss();   
         }, 200);           // jede 1000 Millisekunden wird geprüft, ob Objekte in unserer Welt miteinadern kollidieren
     }
 
@@ -50,6 +52,53 @@ class World{
         });
     }
 
+    /**
+         * checks if the character is jumping on an enemy
+         */
+    checkCollisionJumpOnEnemies() {
+        this.level.enemies.forEach((enemy, indexOfEnemies) => {
+            if (this.character.isColliding(enemy) && this.character.isAboveGround() && this.character.speedY < 0) {
+                this.character.jumpOnEnemy = true;
+                this.checkKindOfEnemy(enemy, indexOfEnemies);
+                setTimeout(() => {
+                    this.deadEnemies.splice(this.deadEnemy);
+                    this.character.jumpOnEnemy = false;
+                }, 700);
+            }
+        });
+    }
+
+    /**
+     * checks if a normal chicken or a small chicken is collided with the character and pushes the right dead variant
+     * to the array deadEnemies 
+     * @param {object} enemy who is collided with the character
+     * @param {number} indexOfEnemies of the array with all enemies in the world
+     */
+    checkKindOfEnemy(enemy, indexOfEnemies) {
+        let deadEnemy;
+        if (enemy instanceof Chicken) {
+            deadEnemy = new DeadChicken(enemy.posX, enemy.posY);
+            // this.chickenDyingAudio.play();
+        } else {
+            deadEnemy = new DeadSmallChicken(enemy.posX, enemy.posY);
+            // this.smallChickenDyingAudio.play();
+        }
+        this.deadEnemies.push(deadEnemy);
+        this.level.enemies.splice(indexOfEnemies, 1);
+    }
+
+
+    checkCollisionsEndboss(){
+        this.level.endboss.forEach((endboss) => {
+            if (this.character.isColliding(endboss) ) {
+                this.character.hitByEndboss();       // im Falle einer Kollision mit einem Enemy wird unserem Character Lebensenergie abgezogen
+                this.statusBar.setPercentage(this.character.energy);
+            console.log('Colission Endboss with Character, energy', this.character.energy);
+            }
+
+        });
+    }
+
     enemyIsCollidingBottle(){
         this.bottles.forEach((bottle) => { //Hier handelt es sich um ein Array
             this.level.enemies.forEach((enemy)=>{
@@ -58,8 +107,10 @@ class World{
                     // this.setPercentage(this.enemyChicken.energy);
                 console.log('Colission with enemy, energy', enemy.energy);
                 }
-            });})
+            });
+        })
     }
+
 
  
 
@@ -102,6 +153,7 @@ class World{
         
         // this.addToMap(this.coins);
         this.addObjectsToMap(this.level.enemies);  // wir fügen unsere Enemies zu unserer Map
+        this.addObjectsToMap(this.level.endboss);// wir fügen unseren Endboss zu unserer Map
         this.addToMap(this.character);  // wir fügen unseren Character zu unserer Map
         this.ctx.translate(-this.camera_x, 0); // Context(ctx)/ Kamera wird beim Bild-Zeichnen (draw) wieder zurück verschoben.
         

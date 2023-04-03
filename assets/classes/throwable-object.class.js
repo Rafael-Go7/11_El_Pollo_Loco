@@ -42,9 +42,13 @@ class ThrowableObject extends MovableObject{
         setInterval(() => {
                 this.playAnimation(this.IMAGES_BOTTLE_ROTATION);
             }, 80);
-        // if () {
-        //     this.playAnimation(this.IMAGES_BOTTLE_SPLASH);
-        // }
-        
+    
+        // if (this.isColliding() == true) {
+        //     setInterval(() => {
+        //         this.playAnimation(this.IMAGES_BOTTLE_SPLASH);
+        //     }, 80);
+        // }    
     }
+
+
 }

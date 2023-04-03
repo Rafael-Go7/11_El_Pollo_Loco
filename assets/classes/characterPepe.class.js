@@ -115,29 +115,34 @@ class Character extends MovableObject{
             // } else 
             if(this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
-            } else if (this.isHurt()) {
-                this.playAnimation(this.IMAGES_HURT);
             } else 
-
-            if(this.isAboveGround()) {
-                // Jumping animation
-                this.playAnimation(this.IMAGES_JUMPING);
-               
-            } else {
-            
-                if(this.world.keyboard.KEY_RIGHT || this.world.keyboard.KEY_LEFT) {
+            { if(this.world.keyboard.KEY_RIGHT || this.world.keyboard.KEY_LEFT) {
                 //Walk animation
                 this.playAnimation(this.IMAGES_WALKING);
                 }
             }
         }, 50);      
-        
+
+        let isAboveGround = setInterval(() => {     //damit wir clearInterval ausführen können, müssen wir dem Interval eine Variable zuweisen
+            if(this.isAboveGround()) {
+                // Jumping animation
+                this.playAnimation(this.IMAGES_JUMPING);
+                clearInterval(this.isAboveGround);  //in die clearInterval(XY) geben wir die Definition des setIntervals ein
+            } 
+        }, 50);
+
+        let CharacterisHurt = setInterval(() => {   //damit wir clearInterval ausführen können, müssen wir dem Interval eine Variable zuweisen
+            if(this.isHurt()) {
+                this.playAnimation(this.IMAGES_HURT);
+                clearInterval(this.CharacterisHurt);  //in die clearInterval(XY) geben wir die Definition des setIntervals ein
+            } 
+        }, 50); 
     }
 
    
-    clearInterval(animations2){
+    // clearInterval(animations2){
 
-    }
+    // }
 
     
     
