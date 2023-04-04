@@ -67,10 +67,10 @@ class World{
                     this.level.enemies.splice(indexOfEnemies, 1);  // nachdem ein enemy getötet wurde, wird er aus dem Hauptarray enemies - in der Class "level" - gelöscht
                     //this.deadEnemies.splice(this.deadEnemy);
                     this.character.jumpOnEnemy = false;
-                    if (enemy instanceof Chicken) {
-                        this.chicken.deadChicken();
-                        // this.chickenDyingAudio.play();
-                    }// } else {
+                    // if (enemy instanceof Chicken) {
+                    //     this.chicken.deadChicken();
+                    //     // this.chickenDyingAudio.play();
+                    // }// } else {
                     //     deadEnemy = new DeadSmallChicken(enemy.posX, enemy.posY);
                     //     // this.smallChickenDyingAudio.play();
                     // }
@@ -168,6 +168,7 @@ class World{
         this.addObjectsToMap(this.level.backgroundObjects);    // wir fügen unsere backgroundObjects zu unserer Map
         this.addObjectsToMap(this.level.clouds);   // wir fügen unsere Clouds zu unserer Map
         this.addObjectsToMap(this.level.bottles);
+        this.addObjectsToMap(this.level.coins);
 
         this.ctx.translate(-this.camera_x, 0); // Context(ctx)/ Kamera wird beim Bild-Zeichnen (draw) wieder zurück verschoben.
     //  ----- Space for fixed objects -----

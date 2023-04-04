@@ -1,9 +1,9 @@
 class Coin extends MovableObject {
-    x = 50;
-    y = 150;
+    // x = 50;
+    // y = 150;
     height = 145;
     width = 145;
-    IMAGE_COIN = ['img/8_coin/coin_1.png', 'img/8_coin/coin_2.png'];
+    IMAGES_COIN = ['assets/img/8_coin/coin_1.png', 'assets/img/8_coin/coin_2.png'];
     // offset = {
     //   top: 40,
     //   left: 40,
@@ -12,15 +12,17 @@ class Coin extends MovableObject {
     // };
   
     constructor(x, y) {
-      super().loadImages(this.IMAGE_COIN);
+      super().loadImage('assets/img/8_coin/coin_1.png');
+      this.loadImages(this.IMAGES_COIN);
       this.x = x;
       this.y = y;
-      this.animate();
+      this.animateCoins();
     }
   
-    animate() {
-      setInterval(() =>
-       this.playAnimation(this.IMAGE_COIN), 1500);
+    animateCoins() {
+      setInterval(() => {
+       this.playAnimation(this.IMAGES_COIN);
+      }, 1500);
     }
   }
   
