@@ -69,6 +69,7 @@ class MovableObject extends DrawableObject{
         }
     }
 
+
     hitByBottle() {
         this.energy -= 50;       // im Falle einer Kollision mit einem Enemy wird unserem Character 5 Lebensenergie abgezogen
         if (this.energy < 0) {
@@ -77,6 +78,7 @@ class MovableObject extends DrawableObject{
             this.lastHit = new Date().getTime();    // Zeitpunktabfrage
         }
     }
+
 
     hitByEndboss() {
         this.energy -= 30;       // im Falle einer Kollision mit einem Enemy wird unserem Character 5 Lebensenergie abgezogen
@@ -87,6 +89,7 @@ class MovableObject extends DrawableObject{
         }
     }
 
+    
     isHurt(){
         let timepassed = new Date().getTime() -this.lastHit;    // Difference in milliseconds //Zeitpunkt, an welchem wir das letzte mal getroffen wurden von einem Element
         timepassed = timepassed / 1000; // Difference in seconds

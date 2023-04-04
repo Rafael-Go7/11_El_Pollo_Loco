@@ -31,26 +31,17 @@ class Chicken extends MovableObject{
 
 
         setInterval(() => {
-            this.playAnimation(this.IMAGES_WALKING);
-            // if (this.Chicken.energy == 0) {
-            //         this.Chicken.deadChicken();
-            //         // this.chickenDyingAudio.play();
-            //     }
-            
-        }, 200);
-        
+            if (this.energy == 0) { // wenn die Energie bei 0, dann playAnimation (this.IMAGES_DEAD);
+                this.playAnimation(this.IMAGES_DEAD); 
+                this.speed = 0
+            } else {
+              this.playAnimation(this.IMAGES_WALKING)
+            }
+          }, 200);
+
         // setInterval(() => {
         //     this.chicken_sound.play();   //Chicken sounds
         // }, 10000);
-
-       
     }
-
-    // deadChicken() {
-    //         setInterval(() => {
-    //             console.log('deadchicken');
-    //         this.playAnimation(this.IMAGES_DEAD);
-    //     }, 200)
-    // }
 
 }

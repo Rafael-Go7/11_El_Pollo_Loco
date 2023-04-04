@@ -50,7 +50,6 @@ class World{
                 this.statusBar.setPercentage(this.character.energy);
             console.log('Colission with Character, energy', this.character.energy);
             }
-
         });
     }
 
@@ -62,6 +61,7 @@ class World{
             if (this.character.isColliding(enemy) && this.character.isAboveGround()) {
                 this.character.jumpOnEnemy = true;
                 // this.checkKindOfEnemy(enemy, indexOfEnemies);
+                enemy.energy = 0;
                 setTimeout(() => {
                     console.log('splice');
                     this.level.enemies.splice(indexOfEnemies, 1);  // nachdem ein enemy getötet wurde, wird er aus dem Hauptarray enemies - in der Class "level" - gelöscht
