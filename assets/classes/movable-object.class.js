@@ -6,6 +6,7 @@ class MovableObject extends DrawableObject{
     energy = 100;
     lastHit = 0;
     idle;
+    bottlehit = false;
 
     applyGravity(){
         setInterval(() => {
@@ -15,7 +16,7 @@ class MovableObject extends DrawableObject{
             }
         }, 1000/ 25); // Funktion soll alle 1000 Millisekunden/ 25 ausgeführt werden
     }
-
+    
 
     isAboveGround() {           // ausgelagerter Y- Achsen Wert, welcher returned wird
         if (this instanceof ThrowableObject) { // (instanceof = Wenn es ein throwableObject ist) ThrowableObject should always fall
@@ -76,7 +77,7 @@ class MovableObject extends DrawableObject{
             this.energy = 0;
         } else {
             this.lastHit = new Date().getTime();    // Zeitpunktabfrage
-        }
+        } 
     }
 
 
@@ -89,7 +90,7 @@ class MovableObject extends DrawableObject{
         }
     }
 
-    
+
     isHurt(){
         let timepassed = new Date().getTime() -this.lastHit;    // Difference in milliseconds //Zeitpunkt, an welchem wir das letzte mal getroffen wurden von einem Element
         timepassed = timepassed / 1000; // Difference in seconds
@@ -100,9 +101,6 @@ class MovableObject extends DrawableObject{
 
     isDead() {
         return this.energy == 0;
-        // if (energy == 0) {
-        //     level.enemies.splice.
-        // }
     }
 
 

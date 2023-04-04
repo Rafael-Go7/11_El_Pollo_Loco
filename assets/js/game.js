@@ -29,7 +29,7 @@ window.addEventListener('keydown', (event) => {       // Definition des Events '
     if (event.keyCode == 68) {
         keyboard.KEY_D = true;
     }
-    console.log(event);                                     //Google suchbefehle: z.B.: "javascript get arrow key pressed", "eventlistener keypress detecting the pressed arrow key geeksforgeeks", "eventlistener press arrow down", "etc."
+    // console.log(event);                                     //Google suchbefehle: z.B.: "javascript get arrow key pressed", "eventlistener keypress detecting the pressed arrow key geeksforgeeks", "eventlistener press arrow down", "etc."
 });
 
 window.addEventListener('keyup', (event) => {       // Definition des Events 'keypress'
@@ -52,5 +52,5 @@ window.addEventListener('keyup', (event) => {       // Definition des Events 'ke
     if (event.keyCode == 68) {
         keyboard.KEY_D = false;
     }
-    console.log(event);                                     //Google suchbefehle: z.B.: "javascript get arrow key pressed", "eventlistener keypress detecting the pressed arrow key geeksforgeeks", "eventlistener press arrow down", "etc."
+    // console.log(event);                                     //Google suchbefehle: z.B.: "javascript get arrow key pressed", "eventlistener keypress detecting the pressed arrow key geeksforgeeks", "eventlistener press arrow down", "etc."
 });
