@@ -14,6 +14,7 @@ class World{
     throwBottle_sound = new Audio('assets/audio/8_throw.wav');
     statusBar = new StatusBar();
     StatusBarEndboss = new StatusBarEndboss();
+    StatusBarBottles = new StatusBarBottles();
     bottlesThrown = [];
     collectedBottles = [];
     // deadEnemies = [];
@@ -67,8 +68,9 @@ class World{
     collectBottleColliding(){
         // console.log('collectBottle ist aktiv');
         this.level.bottles.forEach((bottle, index) => { //Hier handelt es sich um ein Array
-                if (this.character.isColliding(bottle)){
-                    this.level.bottles.splice(index, 1);
+                if (this.character.isColliding(bottle)){        
+                    this.level.bottles.splice(index, 1);    // in der Class 'level' wird im Array bottles ein element aus dem index gelöscht
+                    this.collectedBottles.push(bottle);     // in das Array 'collectedBottles' wird ein element bottles gepusht
                 } 
             })
     }
@@ -172,7 +174,13 @@ class World{
         this.addToMap(this.statusBar); // auch die statusBar muss "gemalt" werden, damit wir sie auf dem Bildschirm angezeigt bekommen
         this.ctx.translate(this.camera_x, 0);  // Der Context (ctx)/ Die Kamera verschiebt das gezeichnete Bild (draw) auf der X-Achse, wie in der Variablen camera_x oben definiert; Der Wert 0 für die Y-Achse muss ebenfalls angegeben werden, damit der Befehl vollständig ist.
         
-        // diese StatusBar verschiebt sich nicht
+        //StatusBarBottles
+        this.ctx.translate(-this.camera_x, 0); // Context(ctx)/ Kamera wird beim Bild-Zeichnen (draw) wieder zurück verschoben.
+    //  ----- Space for fixed objects -----
+        this.addToMap(this.StatusBarBottles); // auch die statusBar muss "gemalt" werden, damit wir sie auf dem Bildschirm angezeigt bekommen
+        this.ctx.translate(this.camera_x, 0);  // Der Context (ctx)/ Die Kamera verschiebt das gezeichnete Bild (draw) auf der X-Achse, wie in der Variablen camera_x oben definiert; Der Wert 0 für die Y-Achse muss ebenfalls angegeben werden, damit der Befehl vollständig ist.
+
+        // StatusBarEndboss -- diese StatusBar verschiebt sich nicht
         this.addToMap(this.StatusBarEndboss); // auch die statusBar muss "gemalt" werden, damit wir sie auf dem Bildschirm angezeigt bekommen
         
 
