@@ -15,7 +15,7 @@ class StatusBar extends DrawableObject {
         super();                //super() muss stets aufgerufen werden, damit wir die Methoden der übergeordneten Klasse aufrufen können
         this.loadImages(this.IMAGES);
         this.x = 30;
-        this.y = 10;
+        this.y = 0;
         this.width = 200;
         this.height = 60;
         this.setPercentage(100);    // hier rufen wir die setPercentage() auf und geben den Anfangswert von 100 mit
