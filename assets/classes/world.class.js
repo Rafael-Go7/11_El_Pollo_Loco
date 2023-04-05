@@ -135,9 +135,9 @@ class World{
     endbossIsCollidingBottle(){
         this.bottlesThrown.forEach((bottle) => { //Hier handelt es sich um ein Array
             this.level.endboss.forEach((bossi)=>{
-                if (bossi.isColliding(bottle) ) {
-                    bossi.hitByBottle();       // im Falle einer Kollision mit einem Enemy wird unserem Character Lebensenergie abgezogen
-                    this.StatusBarEndboss.setPercentage(this.level.endboss.energy);
+                if (bossi.isColliding(bottle)) {
+                    bossi.hitByBottle();       //&& this.energy > 0 im Falle einer Kollision mit einem Enemy wird unserem Character Lebensenergie abgezogen
+                    this.StatusBarEndboss.setPercentage(this.level.endboss[0].energy);
                 console.log('Endboss collides with bottle, energy', bossi.energy);
                 }
             });
