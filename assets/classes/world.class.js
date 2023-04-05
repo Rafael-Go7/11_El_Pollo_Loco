@@ -17,8 +17,8 @@ class World{
     StatusBarBottles = new StatusBarBottles();
     StatusBarCoins = new StatusBarCoins();
     bottlesThrown = [];
-    collectedBottles = [];
-    collectedCoins = [];
+    collectedBottles = 0;
+    collectedCoins = 0;
 
 
     constructor(canvas, keyboard){
@@ -73,8 +73,7 @@ class World{
                 if (this.character.isColliding(bottle)){        
                     this.level.bottles.splice(index, 1);    // in der Class 'level' wird im Array bottles ein element aus dem index gelöscht
                     this.collectedBottles++;     // in das Array 'collectedBottles' wird ein element bottles gepusht
-                    console.log('collectedBottles');
-                    this.StatusBarBottles.setPercentage(this.collectedBottles);
+                    this.StatusBarBottles.setCollectedBottles(this.collectedBottles);
                 } 
             })
     }
@@ -86,8 +85,7 @@ class World{
                 if (this.character.isColliding(coin)){        
                     this.level.coins.splice(index, 1);    // in der Class 'level' wird im Array bottles ein element aus dem index gelöscht
                     this.collectedCoins++;     // in das Array 'collectedBottles' wird ein element bottles gepusht
-                    console.log('collectedCoins');
-                    this.StatusBarCoins.setPercentage(this.collectedCoins);
+                    this.StatusBarCoins.setCollectedCoins(this.collectedCoins);
                 } 
             })
     }
