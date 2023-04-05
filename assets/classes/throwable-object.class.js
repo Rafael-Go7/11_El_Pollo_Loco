@@ -16,6 +16,7 @@ class ThrowableObject extends MovableObject{
         'assets/img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
         ];
 
+
     constructor(x, y){          // (x, y) - Koordinaten werden von wordl.class.js checkThrowObjects() mitgegeben
         super().loadImage('assets/img/6_salsa_bottle/salsa_bottle.png');
         this.loadImages(this.IMAGES_BOTTLE_ROTATION);
@@ -49,7 +50,8 @@ class ThrowableObject extends MovableObject{
             } else {
                 // console.log('ThrowableObject - hitByBottle');
                 this.playAnimation(this.IMAGES_BOTTLE_SPLASH);
-            }
+                
+            } 
         }, 80);
     }
 

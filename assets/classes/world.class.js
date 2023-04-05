@@ -12,6 +12,10 @@ class World{
     camera_x = 0;    // Der Minuswert sorgt dafür, dass das Bild auf der X-Achse nach Links verschoben wird
     music_sound = new Audio('assets/audio/7_music_1_salsa loca2.wav');
     throwBottle_sound = new Audio('assets/audio/8_throw.wav');
+    coin_sound = new Audio('assets/audio/10_coin.wav');
+    collectBottle_sound = new Audio('assets/audio/2_bottle_opening.wav');
+    bottleSmash_sound = new Audio('assets/audio/4_glass2.wav');
+    squeal_sound = new Audio ('assets/audio/11_squeal_1.wav');
     statusBar = new StatusBar();
     StatusBarEndboss = new StatusBarEndboss();
     StatusBarBottles = new StatusBarBottles();
@@ -74,6 +78,7 @@ class World{
                     this.level.bottles.splice(index, 1);    // in der Class 'level' wird im Array bottles ein element aus dem index gelöscht
                     this.collectedBottles++;     // in das Array 'collectedBottles' wird ein element bottles gepusht
                     this.StatusBarBottles.setCollectedBottles(this.collectedBottles);
+                    this.collectBottle_sound.play();
                 } 
             })
     }
@@ -86,6 +91,7 @@ class World{
                     this.level.coins.splice(index, 1);    // in der Class 'level' wird im Array bottles ein element aus dem index gelöscht
                     this.collectedCoins++;     // in das Array 'collectedBottles' wird ein element bottles gepusht
                     this.StatusBarCoins.setCollectedCoins(this.collectedCoins);
+                    this.coin_sound.play();
                 } 
             })
     }
@@ -99,6 +105,7 @@ class World{
             if (this.character.isColliding(enemy) && this.character.isAboveGround()) {
                 this.character.jumpOnEnemy = true;
                 enemy.energy = 0;
+                this.squeal_sound.play();
                 setTimeout(() => {
                     console.log('splice');
                     this.level.enemies.splice(indexOfEnemies, 1);  // nachdem ein enemy getötet wurde, wird er aus dem Hauptarray enemies - in der Class "level" - gelöscht
@@ -124,8 +131,7 @@ class World{
             this.level.enemies.forEach((enemy)=>{
                 if (enemy.isColliding(bottle) ) {
                     enemy.hitByBottle();
-                    // enemy.bottlehit = true;       // im Falle einer Kollision mit einem Enemy wird unserem Character Lebensenergie abgezogen
-                    // this.setPercentage(this.enemyChicken.energy);
+                                                                       // im Falle einer Kollision mit einem Enemy wird unserem Character Lebensenergie abgezogen
                 console.log('Colission with enemy, energy', enemy.energy);
                 }
             });
@@ -150,10 +156,10 @@ class World{
         this.bottlesThrown.forEach((bottle) => {
           if (bottle.isColliding(enemy)) {
             enemy.hit();
-            // bottle.hitEnemy = true;
                 this.level.enemies.splice(indexOfEnemies, 1);
           }
         });
+        
     }
 
     checkThrowObjects(){
@@ -168,11 +174,10 @@ class World{
         this.bottlesThrown.forEach((bottle, index) => {       // vergleichbar dem i, einer regulären for-Schleife
             if (bottle.isAboveGround() == false) {   //"!"" bedeutet Verneinung
                 setTimeout(() => {
-                    this.bottlesThrown.splice(index, 1);
+                    this.bottlesThrown.splice(index, 1);  
                 }, 400);
             }
         })
-       
     }
 
 
