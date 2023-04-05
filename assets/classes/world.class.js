@@ -18,7 +18,8 @@ class World{
     StatusBarCoins = new StatusBarCoins();
     bottlesThrown = [];
     collectedBottles = [];
-    // deadEnemies = [];
+    collectedCoins = [];
+
 
     constructor(canvas, keyboard){
         this.ctx = canvas.getContext('2d');          // ctx steht in aller Regel für den canvas Context
@@ -45,7 +46,7 @@ class World{
             this.checkCollisionsEndboss();
             this.clearSplashAnimation();
             this.collectBottleColliding();
-             
+            this.collectCoinsColliding();
         }, 200);           // jede 1000 Millisekunden wird geprüft, ob Objekte in unserer Welt miteinadern kollidieren
     }
 
@@ -71,10 +72,27 @@ class World{
         this.level.bottles.forEach((bottle, index) => { //Hier handelt es sich um ein Array
                 if (this.character.isColliding(bottle)){        
                     this.level.bottles.splice(index, 1);    // in der Class 'level' wird im Array bottles ein element aus dem index gelöscht
-                    this.collectedBottles.push(bottle);     // in das Array 'collectedBottles' wird ein element bottles gepusht
+                    this.collectedBottles++;     // in das Array 'collectedBottles' wird ein element bottles gepusht
+                    console.log('collectedBottles');
+                    this.StatusBarBottles.setPercentage(this.collectedBottles);
                 } 
             })
     }
+
+
+    collectCoinsColliding(){
+        // console.log('collectBottle ist aktiv');
+        this.level.coins.forEach((coin, index) => { //Hier handelt es sich um ein Array
+                if (this.character.isColliding(coin)){        
+                    this.level.coins.splice(index, 1);    // in der Class 'level' wird im Array bottles ein element aus dem index gelöscht
+                    this.collectedCoins++;     // in das Array 'collectedBottles' wird ein element bottles gepusht
+                    console.log('collectedCoins');
+                    this.StatusBarCoins.setPercentage(this.collectedCoins);
+                } 
+            })
+    }
+
+
     /**
          * checks if the character is jumping on an enemy + splices a dead enemy
          */

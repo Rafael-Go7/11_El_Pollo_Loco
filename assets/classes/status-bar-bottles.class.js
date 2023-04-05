@@ -19,7 +19,7 @@ class StatusBarBottles extends DrawableObject {
         this.y = 60;
         this.width = 200;
         this.height = 60;
-        this.setPercentage(0);    // hier rufen wir die setPercentage() auf und geben den Anfangswert von 100 mit
+        this.setPercentage(this.percentage);    // hier rufen wir die setPercentage() auf und geben den Anfangswert von 100 mit
     }
 
     //setPercentage(50);
