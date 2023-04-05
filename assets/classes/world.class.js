@@ -14,8 +14,9 @@ class World{
     throwBottle_sound = new Audio('assets/audio/8_throw.wav');
     statusBar = new StatusBar();
     StatusBarEndboss = new StatusBarEndboss();
-    bottles = [];
-    deadEnemies = [];
+    bottlesThrown = [];
+    collectedBottles = [];
+    // deadEnemies = [];
 
     constructor(canvas, keyboard){
         this.ctx = canvas.getContext('2d');          // ctx steht in aller Regel für den canvas Context
@@ -24,6 +25,7 @@ class World{
         this.draw();
         this.setWorld();
         this.run();
+        this.runEndboss();
     }
 
 
@@ -39,8 +41,16 @@ class World{
             this.enemyIsCollidingBottle();
             this.checkCollisionJumpOnEnemies();
             this.checkCollisionsEndboss();
-            this.endbossIsCollidingBottle();   
+            this.clearSplashAnimation();
+            this.collectBottleColliding();
+             
         }, 200);           // jede 1000 Millisekunden wird geprüft, ob Objekte in unserer Welt miteinadern kollidieren
+    }
+
+    runEndboss(){
+        setInterval(() => {
+            this.endbossIsCollidingBottle();  
+        }, 2000);
     }
 
 
@@ -54,6 +64,14 @@ class World{
         });
     }
 
+    collectBottleColliding(){
+        // console.log('collectBottle ist aktiv');
+        this.level.bottles.forEach((bottle, index) => { //Hier handelt es sich um ein Array
+                if (this.character.isColliding(bottle)){
+                    this.level.bottles.splice(index, 1);
+                } 
+            })
+    }
     /**
          * checks if the character is jumping on an enemy + splices a dead enemy
          */
@@ -83,11 +101,11 @@ class World{
     }
 
     enemyIsCollidingBottle(){
-        this.bottles.forEach((bottle) => { //Hier handelt es sich um ein Array
+        this.bottlesThrown.forEach((bottle) => { //Hier handelt es sich um ein Array
             this.level.enemies.forEach((enemy)=>{
                 if (enemy.isColliding(bottle) ) {
                     enemy.hitByBottle();
-                    enemy.bottlehit = true;       // im Falle einer Kollision mit einem Enemy wird unserem Character Lebensenergie abgezogen
+                    // enemy.bottlehit = true;       // im Falle einer Kollision mit einem Enemy wird unserem Character Lebensenergie abgezogen
                     // this.setPercentage(this.enemyChicken.energy);
                 console.log('Colission with enemy, energy', enemy.energy);
                 }
@@ -96,7 +114,7 @@ class World{
     }
 
     endbossIsCollidingBottle(){
-        this.bottles.forEach((bottle) => { //Hier handelt es sich um ein Array
+        this.bottlesThrown.forEach((bottle) => { //Hier handelt es sich um ein Array
             this.level.endboss.forEach((bossi)=>{
                 if (bossi.isColliding(bottle) ) {
                     bossi.hitByBottle();       // im Falle einer Kollision mit einem Enemy wird unserem Character Lebensenergie abgezogen
@@ -104,25 +122,17 @@ class World{
                 console.log('Endboss collides with bottle, energy', bossi.energy);
                 }
             });
-
-        });
-        setInterval(() => {
         });
     }
 
 
+
     hitByBottle(enemy) {
-        this.throwableObjects.forEach((bottle) => {
+        this.bottlesThrown.forEach((bottle) => {
           if (bottle.isColliding(enemy)) {
             enemy.hit();
-            bottle.hitEnemy = true;
-            // if (!this.enemyIsChicken(enemy)) {
-            //   this.StatusbarBoss.setPercentage(this.endboss.energy);
-            // } else 
-            // {
+            // bottle.hitEnemy = true;
                 this.level.enemies.splice(indexOfEnemies, 1);
-            //   this.removeChicken(enemy);
-            // }
           }
         });
     }
@@ -130,9 +140,20 @@ class World{
     checkThrowObjects(){
         if(this.keyboard.KEY_D){
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);   //
-            this.bottles.push(bottle);
+            this.bottlesThrown.push(bottle);
             this.throwBottle_sound.play();    // throwBottle_sound wird gespielt
-        }   
+        }
+    }
+
+    clearSplashAnimation(){
+        this.bottlesThrown.forEach((bottle, index) => {       // vergleichbar dem i, einer regulären for-Schleife
+            if (bottle.isAboveGround() == false) {   //"!"" bedeutet Verneinung
+                setTimeout(() => {
+                    this.bottlesThrown.splice(index, 1);
+                }, 400);
+            }
+        })
+       
     }
 
 
@@ -144,17 +165,16 @@ class World{
         this.addObjectsToMap(this.level.clouds);   // wir fügen unsere Clouds zu unserer Map
         this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.level.coins);
-        this.addObjectsToMap(this.bottles); // lokales Array bottles
+        this.addObjectsToMap(this.bottlesThrown); // lokales Array bottles
 
         this.ctx.translate(-this.camera_x, 0); // Context(ctx)/ Kamera wird beim Bild-Zeichnen (draw) wieder zurück verschoben.
     //  ----- Space for fixed objects -----
         this.addToMap(this.statusBar); // auch die statusBar muss "gemalt" werden, damit wir sie auf dem Bildschirm angezeigt bekommen
         this.ctx.translate(this.camera_x, 0);  // Der Context (ctx)/ Die Kamera verschiebt das gezeichnete Bild (draw) auf der X-Achse, wie in der Variablen camera_x oben definiert; Der Wert 0 für die Y-Achse muss ebenfalls angegeben werden, damit der Befehl vollständig ist.
         
-        this.ctx.translate(-this.camera_x, 0); // Context(ctx)/ Kamera wird beim Bild-Zeichnen (draw) wieder zurück verschoben.
-        //  ----- Space for fixed objects -----
+        // diese StatusBar verschiebt sich nicht
         this.addToMap(this.StatusBarEndboss); // auch die statusBar muss "gemalt" werden, damit wir sie auf dem Bildschirm angezeigt bekommen
-        this.ctx.translate(this.camera_x, 0);  
+        
 
         // this.addToMap(this.coins);
         this.addObjectsToMap(this.level.enemies);  // wir fügen unsere Enemies zu unserer Map

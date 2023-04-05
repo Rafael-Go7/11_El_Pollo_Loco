@@ -20,7 +20,7 @@ class MovableObject extends DrawableObject{
 
     isAboveGround() {           // ausgelagerter Y- Achsen Wert, welcher returned wird
         if (this instanceof ThrowableObject) { // (instanceof = Wenn es ein throwableObject ist) ThrowableObject should always fall
-            return true;
+            return this.y < 365;    // hier wird der Boden definiert, auf welchem die Flasche landen kann
         } else {}
         return this.y < 145;    //das Objekt soll nur so lange nach unten Fallen bis der Wert der Y-Achse 145 erreicht hat
     }

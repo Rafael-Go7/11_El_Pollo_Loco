@@ -33,7 +33,8 @@ class ThrowableObject extends MovableObject{
         this.speedY = 10;       // Geschwindigkeit der Flasche
         this.applyGravity();
         setInterval(() => {
-           this.x += 5;  // x-Koordinate soll sich konstant erhöhen
+           if (this.isAboveGround()) {
+            this.x += 5;}  // x-Koordinate soll sich konstant erhöhen
         }, 50);         //milliseconds
     }
 
@@ -45,8 +46,8 @@ class ThrowableObject extends MovableObject{
                 // console.log('bottlehit');
                 this.playAnimation(this.IMAGES_BOTTLE_ROTATION);
                 
-            } else { if (this.y < 145)
-                // console.log('ThrowableObject - hitByBottle', this.bottlehit);
+            } else {
+                // console.log('ThrowableObject - hitByBottle');
                 this.playAnimation(this.IMAGES_BOTTLE_SPLASH);
             }
         }, 80);
