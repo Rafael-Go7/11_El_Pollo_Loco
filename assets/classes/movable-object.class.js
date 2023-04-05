@@ -2,7 +2,7 @@ class MovableObject extends DrawableObject{
     speed = 0.15;
     otherDirection = false;
     speedY = 0;             // Gravity - Geschwindigkeit auf der Y-Achse
-    acceleration = 0.5;       // Gravity - wie schnell unsere Objekte beim Fall auf der Y-Achse beschleunigen
+    acceleration = 3;       // Gravity - wie schnell unsere Objekte beim Fall auf der Y-Achse beschleunigen
     energy = 100;
     lastHit = 0;
     idle;
@@ -15,7 +15,7 @@ class MovableObject extends DrawableObject{
                 this.y -= this.speedY;          // von der Position auf der y-Koordinate ziehen wir den Wert der Variable speedY ab. Wir haben eine negative Geschiwdigkeit auf der y-Achse, weshalb wir hier Minus rechnen.
                 this.speedY -= this.acceleration; // vom Wert der Variablen speedY ziehen wir den Wert der Variablen acceleration ab. Wir haben eine negative Geschiwdigkeit auf der y-Achse, weshalb wir hier ERNEUT Minus rechnen. Spielphysik-Logik.
             }
-        }, 1000/ 25); // Funktion soll alle 1000 Millisekunden/ 25 ausgeführt werden
+        }, 1350/ 50); // Funktion soll alle 1000 Millisekunden/ 25 ausgeführt werden
     }
     
 
@@ -49,7 +49,7 @@ class MovableObject extends DrawableObject{
 
 
     jump(){
-           this.speedY = 10;            // der Speed soll sich erhöhen auf 15
+           this.speedY = 30;            // der Speed soll sich erhöhen auf 15
     }
 
     // Kollisionsformel für MovableObjects

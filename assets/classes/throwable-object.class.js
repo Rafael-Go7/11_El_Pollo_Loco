@@ -31,7 +31,7 @@ class ThrowableObject extends MovableObject{
 
 
     throw() {
-        this.speedY = 10;       // Geschwindigkeit der Flasche
+        this.speedY = 35;       // Geschwindigkeit der Flasche
         this.applyGravity();
         setInterval(() => {
            if (this.isAboveGround()) {

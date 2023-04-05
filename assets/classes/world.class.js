@@ -16,6 +16,9 @@ class World{
     collectBottle_sound = new Audio('assets/audio/2_bottle_opening.wav');
     bottleSmash_sound = new Audio('assets/audio/4_glass2.wav');
     squeal_sound = new Audio ('assets/audio/11_squeal_1.wav');
+    hurt_sound = new Audio ('assets/audio/12_hurt2.wav');
+    death_sound = new Audio ('assets/audio/16_death.mp3');
+    jumpOnEnemy_sound = new Audio ('assets/audio/13_gethit_1.wav');
     statusBar = new StatusBar();
     StatusBarEndboss = new StatusBarEndboss();
     StatusBarBottles = new StatusBarBottles();
@@ -67,6 +70,12 @@ class World{
                 this.character.hit();       // im Falle einer Kollision mit einem Enemy wird unserem Character Lebensenergie abgezogen
                 this.statusBar.setPercentage(this.character.energy);
             console.log('Colission with Character, energy', this.character.energy);
+           
+            if (this.character.energy > 0) {
+                this.hurt_sound.play();
+            } else {
+                this.death_sound.play();
+                }
             }
         });
     }
@@ -105,7 +114,8 @@ class World{
             if (this.character.isColliding(enemy) && this.character.isAboveGround()) {
                 this.character.jumpOnEnemy = true;
                 enemy.energy = 0;
-                this.squeal_sound.play();
+                this.jumpOnEnemy_sound.play();
+                // this.squeal_sound.play();
                 setTimeout(() => {
                     console.log('splice');
                     this.level.enemies.splice(indexOfEnemies, 1);  // nachdem ein enemy getötet wurde, wird er aus dem Hauptarray enemies - in der Class "level" - gelöscht
