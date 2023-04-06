@@ -1,12 +1,14 @@
 class MovableObject extends DrawableObject{
-    speed = 0.15;
+    speed = 0.25;
     otherDirection = false;
     speedY = 0;             // Gravity - Geschwindigkeit auf der Y-Achse
     acceleration = 3;       // Gravity - wie schnell unsere Objekte beim Fall auf der Y-Achse beschleunigen
     energy = 100;
     lastHit = 0;
-    idle;
-    bottlehit = false;
+    lastAction;
+    ground = 170;
+    // idle;
+    // bottlehit = false;
     
     bottleSmash_sound = new Audio('assets/audio/4_glass2.wav');
 
@@ -36,6 +38,15 @@ class MovableObject extends DrawableObject{
         this.currentImage++;    // der Positionswert im Array wid in dieser Schleife jeweils um ++ erhöht. Somit rufen wir die Bilder nacheinadner ab. 
     }
 
+    // ---- Movement ----
+
+    isAtStart() {
+      return this.x <= 0;
+    }
+
+    cannotMove() {
+      return (this.speed = 0);
+    }
 
     moveRight(){
         this.x += this.speed;
@@ -53,6 +64,13 @@ class MovableObject extends DrawableObject{
            this.speedY = 30;            // der Speed soll sich erhöhen auf 15
     }
 
+
+    isAsleep() {
+        let timePassed = new Date().getTime() - this.lastAction;
+        timePassed = timePassed / 1000;
+        return timePassed > 5;
+    }
+
     // Kollisionsformel für MovableObjects
     isColliding(mo) {                           //X und Y Positionskoordinaten der versch. MovableObjects werden miteinander abgeglichen, somit eine Überschneidung bzw. Kollision festgestellt
         return this.x + this.width > mo.x && 
@@ -62,6 +80,8 @@ class MovableObject extends DrawableObject{
 
     }
 
+
+    // ---- HIT, HURT, DEATH ----
 
     hit() {
         this.energy -= 5;       // im Falle einer Kollision mit einem Enemy wird unserem Character 5 Lebensenergie abgezogen
@@ -98,8 +118,12 @@ class MovableObject extends DrawableObject{
         timepassed = timepassed / 1000; // Difference in seconds
         // console.log(timepassed); 
         return timepassed < 1.5;          // 
+        this.wasHit();
     }
 
+    wasHit() {
+        return this.energy < 100;
+    }
 
     isDead() {
         return this.energy == 0;

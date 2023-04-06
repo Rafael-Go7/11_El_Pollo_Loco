@@ -66,7 +66,7 @@ class Character extends MovableObject{
     //     'assets/img/2_character_pepe/1_idle/long_idle/I-19.png',
     //     'assets/img/2_character_pepe/1_idle/long_idle/I-20.png'
     //     ];
-
+    getsPushed = false;
     world;  // hierdurch empfängt die Klasse Character die Eigenschaften der Varibalen von Welt, kann somit auf die Informationen zugreifen
     walking_sound = new Audio('assets/audio/1_walking3_concrete.wav');
     jump_sound = new Audio('assets/audio/5_jump1.wav');
@@ -105,6 +105,7 @@ class Character extends MovableObject{
                 this.jump();
                 this.jump_sound.play();     // Jump Sound
             }
+            this.checkIfGetsPushed();
 
         }, 1000 / 60);
 
@@ -144,12 +145,39 @@ class Character extends MovableObject{
 
     // }
 
-    
-    
-    
+
     // myStopFunction() {
     //     clearInterval(animations2);
     //   }
+
+       //PUSHING BY ENDBOSS
+
+  checkIfGetsPushed() {
+    if (this.getsPushedNearStart()) {
+      this.pushToStart();
+    } else if (this.getsPushedFarFromStart()) {
+      this.pushWithFullPower();
+    }
+  }
+
+  getsPushedNearStart() {
+    return this.getsPushed && this.x < this.world.endboss.powerOfPushing;
+  }
+
+  pushToStart() {
+    return (this.x -= this.x);
+  }
+
+  getsPushedFarFromStart() {
+    return this.getsPushed;
+  }
+
+  pushWithFullPower() {
+    this.x -= this.world.endboss.powerOfPushing;
+    setTimeout(() => {
+      this.getsPushed = false;
+    }, 100);
+  }
 
 }
 

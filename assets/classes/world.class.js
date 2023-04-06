@@ -1,5 +1,6 @@
 class World{
     character = new Character();        // wir haben eine Variable character definiert und dieser ein Character-Objekt als Wert zugewiesen
+    endboss = new Endboss();
     // enemyChicken = new Chicken();
     // enemyChickenSmall = new ChickenSmall();
     // enemy = new Chicken();
@@ -8,7 +9,7 @@ class World{
     canvas;
     ctx;
     keyboard;
-    // coins;
+
     camera_x = 0;    // Der Minuswert sorgt dafür, dass das Bild auf der X-Achse nach Links verschoben wird
     music_sound = new Audio('assets/audio/7_music_1_salsa loca2.wav');
     throwBottle_sound = new Audio('assets/audio/8_throw.wav');
@@ -19,6 +20,8 @@ class World{
     hurt_sound = new Audio ('assets/audio/12_hurt2.wav');
     death_sound = new Audio ('assets/audio/16_death.mp3');
     jumpOnEnemy_sound = new Audio ('assets/audio/13_gethit_1.wav');
+    endbossAppearance_sound = new Audio ('assets/audio/19_dramatic sound_3.wav');
+
     statusBar = new StatusBar();
     StatusBarEndboss = new StatusBarEndboss();
     StatusBarBottles = new StatusBarBottles();
@@ -35,6 +38,7 @@ class World{
         this.draw();
         this.setWorld();
         this.run();
+        this.runFaster();
         this.runEndboss();
     }
 
@@ -48,21 +52,86 @@ class World{
         setInterval(() => {
             this.checkCollisions();  
             this.checkThrowObjects();
-            this.enemyIsCollidingBottle();
-            this.checkCollisionJumpOnEnemies();
             this.checkCollisionsEndboss();
             this.clearSplashAnimation();
             this.collectBottleColliding();
             this.collectCoinsColliding();
-        }, 60);           // jede 1000 Millisekunden wird geprüft, ob Objekte in unserer Welt miteinadern kollidieren
+            this.checkAppearanceEndboss();
+        }, 100);           // jede 1000 Millisekunden wird geprüft, ob Objekte in unserer Welt miteinadern kollidieren
+    }
+
+    runFaster() {
+        setInterval(() => {
+            this.enemyIsCollidingBottle();
+            this.checkCollisionJumpOnEnemies();
+        }, 50);
     }
 
     runEndboss(){
         setInterval(() => {
-            this.endbossIsCollidingBottle();  
-        }, 2000);
+            this.endbossIsCollidingBottle();
+            this.checkEndbossPushingCharacter();  
+        }, 50);
     }
 
+    //ENDBOSS APPEARANCE
+
+    checkAppearanceEndboss() {
+        if (this.characterReachesEndboss()) {
+        this.activatingEndboss();
+        } else {
+        // this.hideStatusBarOfEndboss();
+        }
+    }
+
+    characterReachesEndboss() {
+        return this.endboss.x - this.character.x < 450;
+        console.log('character has reached Endboss - distance 450');
+    }
+
+    activatingEndboss() {
+        // this.statusBarEndboss.width = 200;
+        // this.statusBarEndboss.height = 60;
+        // this.statusBarEndbossHeart.width = 70;
+        // this.statusBarEndbossHeart.height = 75;
+        this.endboss.isAlarmed = true;
+        console.log('endboss isAlarmed = true');
+        // this.endbossAppearance_sound.play();
+        // this.endbossAppearance_sound.pause();
+        // pauseAudio("endbossAppearance_sound");
+    }
+
+    // hideStatusBarOfEndboss() {
+    //     this.statusBarEndboss.width = 0;
+    //     this.statusBarEndboss.height = 0;
+    //     this.statusBarEndbossHeart.width = 0;
+    //     this.statusBarEndbossHeart.height = 0;
+    // }
+
+
+    //ENDBOSS PUSHING CHARACTER
+
+    checkEndbossPushingCharacter() {
+        if (this.endbossCollidesCharacter()) {
+        this.characterGetsPushed();
+        } else {
+        this.characterGetsNotPushed();
+        }
+    }
+
+    endbossCollidesCharacter() {
+        return this.character.isColliding(this.endboss);
+    }
+
+    characterGetsPushed() {
+        this.character.getsPushed = true;
+    }
+
+    characterGetsNotPushed() {
+        this.character.getsPushed = false;
+    }
+
+    // Check Collisions
 
     checkCollisions(){
         this.level.enemies.forEach((enemy) => {
@@ -104,9 +173,9 @@ class World{
 
     
     jumpOnHead() {
-        console.log('jumpOnHead ist aktiv');
+        // console.log('jumpOnHead ist aktiv');
         this.character.speedY = 20;
-        // this.removeChicken(enemy);
+      
     }
 
 
@@ -170,7 +239,6 @@ class World{
             });
         });
     }
-
 
 
     hitByBottle(enemy) {
@@ -293,4 +361,53 @@ class World{
 
     }
 
+
+//     //GAME IS OVER
+
+//   checkIfWonOrLost() {
+//     if (this.characterDied()) {
+//       this.showGameLost();
+//       this.changeStyleForEndscreen();
+//       this.stopAudiosAndIntervale();
+//     }
+//     if (this.endbossDied()) {
+//       this.showGameWon();
+//       this.changeStyleForEndscreen();
+//       this.stopAudiosAndIntervale();
+//     }
+//   }
+
+//   characterDied() {
+//     return this.character.energy == 0 && !this.gameIsOver;
+//   }
+
+//   showGameLost() {
+//     gameIsOver = true;
+//     document.getElementById("gameOverImg").src =
+//       "img/9_intro_outro_screens/game_over/oh no you lost!.png";
+//     playAudio("gameLost");
+//   }
+
+//   endbossDied() {
+//     return this.endboss.energy == 0 && !this.gameIsOver;
+//   }
+
+//   showGameWon() {
+//     gameIsOver = true;
+//     document.getElementById("gameOverImg").src =
+//       "img/9_intro_outro_screens/game_over/game over!.png";
+//     playAudio("gameWon");
+//   }
+
+//   changeStyleForEndscreen() {
+//     document.getElementById("gameOver").classList.remove("d-none");
+//     document.getElementById("mobileWalk").classList.add("d-none");
+//     document.getElementById("mobileActions").classList.add("d-none");
+//   }
+
+//   stopAudiosAndIntervale() {
+//     pauseAudio("endboss");
+//     pauseAudio("background");
+//     stopIntervale();
+//   }
 }
