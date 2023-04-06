@@ -54,7 +54,7 @@ class World{
             this.clearSplashAnimation();
             this.collectBottleColliding();
             this.collectCoinsColliding();
-        }, 200);           // jede 1000 Millisekunden wird geprüft, ob Objekte in unserer Welt miteinadern kollidieren
+        }, 60);           // jede 1000 Millisekunden wird geprüft, ob Objekte in unserer Welt miteinadern kollidieren
     }
 
     runEndboss(){
@@ -66,19 +66,49 @@ class World{
 
     checkCollisions(){
         this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy) ) {
+                  
+            if (this.character.isColliding(enemy) && !this.character.isAboveGround()) {
                 this.character.hit();       // im Falle einer Kollision mit einem Enemy wird unserem Character Lebensenergie abgezogen
                 this.statusBar.setPercentage(this.character.energy);
             console.log('Colission with Character, energy', this.character.energy);
            
             if (this.character.energy > 0) {
-                this.hurt_sound.play();
+                // this.hurt_sound.play();
             } else {
-                this.death_sound.play();
+                // this.death_sound.play();
                 }
             }
         });
     }
+
+    /**
+         * checks if the character is jumping on an enemy + splices a dead enemy
+         */
+    checkCollisionJumpOnEnemies() {
+        this.level.enemies.forEach((enemy, indexOfEnemies) => {
+            if (this.character.isColliding(enemy) && this.character.isAboveGround()) {
+                this.character.jumpOnEnemy = true;
+                enemy.energy = 0;
+                this.jumpOnEnemy_sound.play();
+                // this.squeal_sound.play();
+                this.jumpOnHead();
+
+                setTimeout(() => {
+                    console.log('splice');
+                    this.level.enemies.splice(indexOfEnemies, 1);  // nachdem ein enemy getötet wurde, wird er aus dem Hauptarray enemies - in der Class "level" - gelöscht
+                    this.character.jumpOnEnemy = false;
+                }, 200);
+            }
+        })
+    }
+
+    
+    jumpOnHead() {
+        console.log('jumpOnHead ist aktiv');
+        this.character.speedY = 20;
+        // this.removeChicken(enemy);
+    }
+
 
     collectBottleColliding(){
         // console.log('collectBottle ist aktiv');
@@ -87,8 +117,9 @@ class World{
                     this.level.bottles.splice(index, 1);    // in der Class 'level' wird im Array bottles ein element aus dem index gelöscht
                     this.collectedBottles++;     // in das Array 'collectedBottles' wird ein element bottles gepusht
                     this.StatusBarBottles.setCollectedBottles(this.collectedBottles);
+                    // console.log(this.collectedBottles);
                     this.collectBottle_sound.play();
-                } 
+                }
             })
     }
 
@@ -103,26 +134,6 @@ class World{
                     this.coin_sound.play();
                 } 
             })
-    }
-
-
-    /**
-         * checks if the character is jumping on an enemy + splices a dead enemy
-         */
-    checkCollisionJumpOnEnemies() {
-        this.level.enemies.forEach((enemy, indexOfEnemies) => {
-            if (this.character.isColliding(enemy) && this.character.isAboveGround()) {
-                this.character.jumpOnEnemy = true;
-                enemy.energy = 0;
-                this.jumpOnEnemy_sound.play();
-                // this.squeal_sound.play();
-                setTimeout(() => {
-                    console.log('splice');
-                    this.level.enemies.splice(indexOfEnemies, 1);  // nachdem ein enemy getötet wurde, wird er aus dem Hauptarray enemies - in der Class "level" - gelöscht
-                    this.character.jumpOnEnemy = false;
-                }, 200);
-            }
-        });
     }
 
 
@@ -173,9 +184,12 @@ class World{
     }
 
     checkThrowObjects(){
-        if(this.keyboard.KEY_D){
+        if(this.keyboard.KEY_D && this.collectedBottles > 0){   //wenn KEY_D gedrückt wird und der Wert der Variablen collectedBottles > 0 ist, dann wird nachfolgendes {} ausgeführt
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);   //
             this.bottlesThrown.push(bottle);
+            this.collectedBottles--;    // verringert den Wert in collectedBottles um --. Das bedeutet 1.
+            this.StatusBarBottles.setCollectedBottles(this.collectedBottles);
+            // console.log(this.collectedBottles);
             this.throwBottle_sound.play();    // throwBottle_sound wird gespielt
         }
     }

@@ -25,20 +25,20 @@ class StatusBarBottles extends DrawableObject {
     //setPercentage(50);
     setCollectedBottles(collectedBottles) {
         this.collectedBottles = collectedBottles;   // aus der Prozentzahl müssen wir nun eine Zahl zwischen 0 und 5 ermitteln
-        let path = this.IMAGES_StatusBarBottles[this.resolveImageIndex()];   // eines der ArrayBilder wird herausgesucht und in den 'path' hinein geladen
+        let path = this.IMAGES_StatusBarBottles[this.resolveImageIndex(collectedBottles)];   // eines der ArrayBilder wird herausgesucht und in den 'path' hinein geladen
         this.img = this.imageCache[path];   // das aktuelle Bild soll dem Bild vom imageCache entsprechen
     }
 
-    resolveImageIndex(){
-        if (this.collectedBottles == 0) {
+    resolveImageIndex(collectedBottles){
+        if (collectedBottles == 0) {
             return 0;
-          } else if (this.collectedBottles < 3) {
+          } else if (collectedBottles < 3) {
             return 1;
-          } else if (this.collectedBottles < 5) {
+          } else if (collectedBottles < 5) {
             return 2;
-          } else if (this.collectedBottles < 7) {
+          } else if (collectedBottles < 7) {
             return 3;
-          } else if (this.collectedBottles <= 9) {
+          } else if (collectedBottles <= 9) {
             return 4;
           } else {
             return 5;

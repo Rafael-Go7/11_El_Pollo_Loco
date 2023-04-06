@@ -31,12 +31,13 @@ class ThrowableObject extends MovableObject{
 
 
     throw() {
-        this.speedY = 35;       // Geschwindigkeit der Flasche
+        this.speedY = 45;       // Geschwindigkeit der Flasche
         this.applyGravity();
         setInterval(() => {
            if (this.isAboveGround()) {
             this.x += 5;}  // x-Koordinate soll sich konstant erhöhen
         }, 50);         //milliseconds
+        
     }
 
 

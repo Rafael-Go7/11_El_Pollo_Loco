@@ -7,6 +7,7 @@ class MovableObject extends DrawableObject{
     lastHit = 0;
     idle;
     bottlehit = false;
+    
     bottleSmash_sound = new Audio('assets/audio/4_glass2.wav');
 
     applyGravity(){
